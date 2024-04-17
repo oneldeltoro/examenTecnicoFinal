@@ -1,0 +1,69 @@
+version: '3.7'
+services:
+  #Cloudservices
+  #Spring Cloud Config
+  config-service:
+    build:
+      context: config
+      dockerfile: Dockerfile
+    image: onel.deltoro/et-config:v1
+    container_name: config
+    restart: unless-stopped
+    hostname: config
+    networks:
+      - tteams_internal
+    ports:
+      - "8888:8888"
+  # Netflix Eureka Server
+  registry-service:
+    build:
+      context: discovery
+      dockerfile: Dockerfile
+    image: onel.deltoro/et-discovery:v1
+    container_name: discovery
+    restart: unless-stopped
+    hostname: discovery
+    depends_on:
+      - config-service
+    networks:
+      - tteams_internal
+    ports:
+      - "8761:8761"
+  # Spring Cloud Gateway
+  gateway-service:
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    image: onel.deltoro/et-gateway:v1
+    container_name: gateway
+    restart: unless-stopped
+    hostname: gateway
+    depends_on:
+      - config-service
+      - registry-service
+    networks:
+      - tteams_internal
+      - ev_bridge
+    ports:
+      - "9091:9091"
+  # Microservices
+  microservicio-service:
+    build:
+      context: microservicio
+      dockerfile: Dockerfile
+    image: onel.deltoro/et-microservicio:v1
+    container_name: identity
+    restart: unless-stopped
+    hostname: identity
+    depends_on:
+      - config-service
+      - registry-service
+      - gateway-service
+    networks:
+      - tteams_internal
+    ports:
+      - "8080:8080"
+networks:
+  tteams_internal:
+  ev_bridge:
+    driver: bridge
