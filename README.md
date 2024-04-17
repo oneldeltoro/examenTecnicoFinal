@@ -5,16 +5,12 @@ Examen técnico para plaza backend para gestion de entidades WasteManagerEntity
 Esta es una arquitectura microservicios encargada de la gestion de las entidades
 WasteManagerEntity y WasteManagerEntityAddress. El mismo implementa los patrones arquitectónicos Domain Driven Design, Clean Arch en una Arquitectura hexagonal. Las cuales ofrecen como ventajas el facil mantenimiento del codigo y su migracion a otros framework de manera transparente  También cuenta con su archivo docker-compose para un rápido inicio de la nube de microservicios.
 
-### Estructura del proyecto ###
-
-<img src="https://github.com/RivasB/TTeams/blob/main/project.png"/>
-
 ### Instalacion ###
 
 ``` bash
 mkdir examenTecnico
 cd examenTecnico
-git clone https://github.com/oneldeltoro/examenTecnico.git
+git clone --branch develop https://github.com/oneldeltoro/examenTecnicoFinal.git 
 
 mvn clean install -DskipTest 
 
